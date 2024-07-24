@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+<<<<<<< HEAD
 
 function App() {
   return (
@@ -19,6 +20,19 @@ function App() {
         </a>
       </header>
     </div>
+=======
+import { Provider } from 'react-redux';
+import store from './store';
+import Gamer from './counter';
+
+function App() {
+  return (
+   <Provider store={store}>
+    <div className="App">
+      <Gamer />
+    </div>
+    </Provider>
+>>>>>>> feature/testingRedux
   );
 }
 
