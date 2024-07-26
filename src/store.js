@@ -23,24 +23,24 @@ const firstState = [
   ];
 
 
-
 const stateChanger = (state = firstState, action) => {
+    console.log("state count type: ", typeof(state[0].count));
 
     switch(action.type){
         case 'INC':
             return state.map(data => 
-                data.id === state.id ? ({...state, count:state.count + 10}): data
+                data.id === action.id ? ({...state, count:data.count + 10}): data
             )
              
 
         case 'DEC':
             return state.map(data => 
-                data.id === state.id ? ({...state, count:state.count + 10}): data
+                data.id === action.id ? ({...state, count:data.count - 10}): data
             )
 
         case 'CLEAN':
             return state.map(data => 
-                data.id === state.id ? ({...state, count:state.count + 10}): data
+                data.id === action.id ? ({...state, count:0}): data
             )
         default:
             return state
