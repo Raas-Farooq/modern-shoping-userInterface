@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useGlobalState } from "../globalContext/context";
-
+import { addToCart, removeFromCart, selectIsInCart} from "../store/cartSlice";
 const Carts = () => {
-  const {setTotalCartItems, totalCartItems, setTotalAmount, totalAmount} = useGlobalState();
+  // const {setTotalCartItems, totalCartItems, setTotalAmount, totalAmount} = useGlobalState();
   const [allCarts, setAllCarts] = useState([]);
-  // const [set]
+
+  
   
   function shortText(text) {
     const splitText = text.split(" ");
@@ -21,7 +22,8 @@ const Carts = () => {
         try {
           let parsedData = JSON.parse(storedData);
           // console.log("parsedData.length: ", parsedData.length);
-          setTotalCartItems(parsedData.length);
+          // setTotalCartItems(parsedData.length);
+          parsedData = parsedData.filter(item => item != null);
           setAllCarts(parsedData);
         } catch (error) {
           console.error("Error parsing cart data:", error);
@@ -35,29 +37,29 @@ const Carts = () => {
     getStoredCarts();
   }, []);
  
-  useEffect(() => {
-    if(allCarts){
-     const getAmount = allCarts.reduce((acc, item) => {
-      acc = acc + item.price
-      console.log("acc reduce: ",acc);
-      return acc;
-     },0);
+  // useEffect(() => {
+  //   if(allCarts){
+  //    const getAmount = allCarts.reduce((acc, item) => {
+  //     acc = acc + item.price
+  //     console.log("acc reduce: ",acc);
+  //     return acc;
+  //    },0);
 
-     console.log('getAmount: ', getAmount);
-     setTotalAmount(getAmount.toFixed(2))
-    }
+  //    console.log('getAmount: ', getAmount);
+  //    setTotalAmount(getAmount.toFixed(2))
+  //   }
     
     
-  }, [allCarts, totalCartItems]);
+  // }, [allCarts, totalCartItems]);
 
 
   return (
     <div style={{display:"flex", gap:'10px'}}>
-      <div style={{width:'15%'}}>
+      {/* <div style={{width:'15%'}}>
         <h5> <span style={{color:'blue'}}>total Items : {totalCartItems} </span></h5>
         <h5><span style={{color:'blue'}}> total Amount : {totalAmount} </span></h5>
       </div>
-      {console.log("totalCartItems: ", totalCartItems)}
+      { */}
       <div
         style={{
           display: "flex",
@@ -66,7 +68,9 @@ const Carts = () => {
           justifyContent: "center",
         }}
       >
+        {/* {console.log("allCarts: ", allCarts)} */}
         {allCarts.map((cart) => {
+          // {console.log("cart: ", cart)}
           return (
             <div
               key={cart.id}

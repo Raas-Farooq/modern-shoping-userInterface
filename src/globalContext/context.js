@@ -51,10 +51,10 @@ const GlobalState = ({children}) => {
         cartProducts,
         loading,
         err,
-        setTotalCartItems,
-        totalCartItems,
-        totalAmount,
-        setTotalAmount
+        // setTotalCartItems,
+        // totalCartItems,
+        // totalAmount,
+        // setTotalAmount
     }}>
         {children}
     </AppContext.Provider>
