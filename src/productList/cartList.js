@@ -35,17 +35,16 @@ const CartList = (props) => {
             console.log("clicked Cart: ", newCart);
             if(newCart){
                 storedCarts.push(newCart);
-                console.log("stored Items before storing: ", storedCarts);
                 localStorage.setItem('boughtItems', JSON.stringify(storedCarts))
             }
         }
         setFound(!found);
     }
 
-    useEffect(() => {
-        const myWord =  shortText("going through the winds");
-        console.log("Special: ", myWord)
-    }, [])
+    // useEffect(() => {
+    //     const myWord =  shortText("going through the winds");
+        
+    // }, [found])
   
     return (
         <div className={styles.singleCart} key={id} >
@@ -56,7 +55,6 @@ const CartList = (props) => {
             <h5> {category} </h5>
             <h6> {price} </h6>
             <button onClick={() => handleClick(id)}> {found ? 'Remove From Cart' : 'Add To Cart'} </button>
-            {/* onClick={handleClick} */}
         </div>
     )
 }

@@ -1,7 +1,7 @@
 
 // import { Provider } from 'react-redux';
 import Home from './home.js';
-import Carts from './pages/carts.js';
+import Carts from './pages/cartsPage.js';
 // import Gamer from './home';
 import { BrowserRouter, Route,Routes } from 'react-router-dom';
 import Navbar from './Components/Navbar.js';

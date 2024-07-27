@@ -6,6 +6,8 @@ const AppContext = createContext();
 
 const GlobalState = ({children}) => {
 
+    const [totalAmount, setTotalAmount] = useState(0);
+    const [totalCartItems, setTotalCartItems] = useState('');
     const [loading, setLoading] = useState(false);
     const [err, setError] = useState(null);
     const [cartProducts, setCartProducts] = useState([]);
@@ -48,7 +50,11 @@ const GlobalState = ({children}) => {
     return <AppContext.Provider value={{
         cartProducts,
         loading,
-        err
+        err,
+        setTotalCartItems,
+        totalCartItems,
+        totalAmount,
+        setTotalAmount
     }}>
         {children}
     </AppContext.Provider>
