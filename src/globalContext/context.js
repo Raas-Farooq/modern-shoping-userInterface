@@ -109,10 +109,7 @@ const GlobalState = ({children}) => {
         isInCart,
         totalAmount,
         totalItems
-        // setTotalCartItems,
-        // totalCartItems,
-        // totalAmount,
-        // setTotalAmount
+   
     }}>
         {children}
     </AppContext.Provider>
