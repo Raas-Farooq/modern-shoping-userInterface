@@ -5,6 +5,7 @@ import { addToCart, removeFromCart, selectIsInCart} from "../store/cartSlice";
 const Carts = () => {
   // const {setTotalCartItems, totalCartItems, setTotalAmount, totalAmount} = useGlobalState();
   const [allCarts, setAllCarts] = useState([]);
+  const {totalAmount, totalItems} = useGlobalState();
 
   
   
@@ -16,13 +17,12 @@ const Carts = () => {
   }
 
   useEffect(() => {
+    console.log("TotalAmount: ", totalAmount)
     const getStoredCarts = () => {
       const storedData = localStorage.getItem("boughtItems");
       if (storedData) {
         try {
           let parsedData = JSON.parse(storedData);
-          // console.log("parsedData.length: ", parsedData.length);
-          // setTotalCartItems(parsedData.length);
           parsedData = parsedData.filter(item => item != null);
           setAllCarts(parsedData);
         } catch (error) {
@@ -54,12 +54,12 @@ const Carts = () => {
 
 
   return (
-    <div style={{display:"flex", gap:'10px'}}>
-      {/* <div style={{width:'15%'}}>
-        <h5> <span style={{color:'blue'}}>total Items : {totalCartItems} </span></h5>
+    <div >
+      <div>
+        <h5> <span style={{color:'blue'}}>total Items : {totalItems} </span></h5>
         <h5><span style={{color:'blue'}}> total Amount : {totalAmount} </span></h5>
       </div>
-      { */}
+      
       <div
         style={{
           display: "flex",

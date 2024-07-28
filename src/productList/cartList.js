@@ -4,15 +4,19 @@ import styles from './cartList.module.css';
 import { useGlobalState } from '../globalContext/context';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addToCart, removeFromCart, selectIsInCart } from '../store/cartSlice';
+// import { addToCart, removeFromCart, selectIsInCart } from '../store/cartSlice';
 const CartList = (props) => {
     // console.log("props items: ", props.cart)
 
     
     const {id, category, title, image, price, rating} = props.cart;
     const [found, setFound] = useState(false);
-    const dispatch = useDispatch()
-    const isInCart = useSelector(selectIsInCart(id));
+    const {isInCart, addToCart, removeFromCart, cartItems} = useGlobalState();
+
+
+
+    // const dispatch = useDispatch()
+    // const isInCart = useSelector(selectIsInCart(id));
 
     function shortText(text){
 
@@ -24,20 +28,28 @@ const CartList = (props) => {
 
     const handleClick = (id) => {
 
-
-        if(isInCart){
-            dispatch(removeFromCart(id));
+        console.log("click Item has been clcicked ", !isInCart(id));
+        if(!isInCart(id)){
+            const item = props.allProducts.find(product => product.id === id)
+            addToCart(item)
         }
         else{
-            const clickedItem = props.allProducts.find(product => product.id === id);
-            console.log("clicked card inside cartList ", clickedItem);
-            if(clickedItem){
-                dispatch(addToCart(clickedItem));
-            }
-            else{
-                console.log('nuable to dispatch addToCart ')
-            }
+            removeFromCart(id)
         }
+        
+        // if(isInCart){
+        //     dispatch(removeFromCart(id));
+        // }
+        // else{
+        //     const clickedItem = props.allProducts.find(product => product.id === id);
+        //     console.log("clicked card inside cartList ", clickedItem);
+        //     if(clickedItem){
+        //         dispatch(addToCart(clickedItem));
+        //     }
+        //     else{
+        //         console.log('nuable to dispatch addToCart ')
+        //     }
+        // }
         // let storedCarts = JSON.parse(localStorage.getItem('boughtItems'))|| [];
 
         // console.log("handleClick Runs")
@@ -72,7 +84,7 @@ const CartList = (props) => {
             <img src={image} style={{width:'250px', height:'250px'}} alt={title} />
             <h5> {category} </h5>
             <h6> {price} </h6>
-            <button onClick={() => handleClick(id)}> {isInCart ? 'Remove From Cart' : 'Add To Cart'} </button>
+            <button onClick={() => handleClick(id)}> {isInCart(id) ? 'Remove From Cart' : 'Add To Cart'} </button>
         </div>
     )
 }

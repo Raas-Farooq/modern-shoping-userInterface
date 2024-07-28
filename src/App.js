@@ -10,7 +10,7 @@ import store from './store/index.js'
 
 function App() {
   return (
-  <Provider store={store} >
+  // <Provider store={store} >
      <div>
     <Navbar />
       <Routes>
@@ -19,7 +19,7 @@ function App() {
       </Routes>
     
    </div>
-  </Provider>
+  // </Provider>
    
 
   );

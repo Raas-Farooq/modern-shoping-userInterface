@@ -6,11 +6,41 @@ const AppContext = createContext();
 
 const GlobalState = ({children}) => {
 
+    const [totalItems, setTotalItems] = useState(0);
     const [totalAmount, setTotalAmount] = useState(0);
-    const [totalCartItems, setTotalCartItems] = useState('');
+    const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [err, setError] = useState(null);
-    const [cartProducts, setCartProducts] = useState([]);
+    const [allProducts, setAllProducts] = useState([]);
+
+
+    useEffect(() => {
+
+        let localStored = JSON.parse(localStorage.getItem('boughtItems')) || [];
+        console.log("localStored in effect: ", localStored);
+        
+        if(localStored.length > 0){
+            setCartItems(localStored)
+        }
+        console.log("cartItems Effect: ", cartItems);
+    }, [])
+
+    
+    useEffect (() => {
+
+        if(cartItems.length > 0){
+            setTotalItems(cartItems.length)
+            console.log("cart Items new useEffect", cartItems);
+            const bill = cartItems.reduce((acc, product) => {
+                const rupees = acc + product.price;
+                return rupees;
+            },0) 
+            localStorage.setItem('boughtItems', JSON.stringify(cartItems))
+            setTotalAmount(bill)
+        }
+       
+    }, [cartItems])
+
 
     const fetchCarts = useCallback(async () => {
         setLoading(true);
@@ -26,7 +56,7 @@ const GlobalState = ({children}) => {
 
             const products = await response.json();
 
-            setCartProducts(products);
+            setAllProducts(products);
            
 
         }
@@ -44,13 +74,41 @@ const GlobalState = ({children}) => {
         
         fetchCarts();
 
-        // console.log('myProducts: ', cartProducts)
+        // console.log('myProducts: ', AllProducts)
     }, [fetchCarts])
 
+
+    const addToCart = (item) => {
+        setCartItems(prev =>  [...prev, item])
+        
+    }
+
+    const removeFromCart = (id) => {
+        
+       
+        const product = allProducts.some(product => product.id === id);
+
+        if(product){
+            
+            setCartItems(prev => prev.filter(prev => prev.id != id))
+        }
+
+        
+    }
+
+    const isInCart = (id) => cartItems.some(cart => cart.id === id)
+
+    
     return <AppContext.Provider value={{
-        cartProducts,
+        allProducts,
         loading,
         err,
+        cartItems,
+        addToCart,
+        removeFromCart,
+        isInCart,
+        totalAmount,
+        totalItems
         // setTotalCartItems,
         // totalCartItems,
         // totalAmount,

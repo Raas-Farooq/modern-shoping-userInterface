@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
 
-  const {cartProducts, loading, err} = useGlobalState();
+  const {allProducts, loading, err} = useGlobalState();
   
 
   if(err){
@@ -19,8 +19,8 @@ const Home = () => {
       <div>
         {!loading ? (
           <div style={{display:'flex', justifyContent:'center', flexWrap:'wrap', gap:'20px'}}>
-            {cartProducts.map(cart => 
-              <CartList cart={cart} allProducts={cartProducts} />
+            {allProducts.map(cart => 
+              <CartList cart={cart} allProducts={allProducts} />
             )}
             
           </div>
