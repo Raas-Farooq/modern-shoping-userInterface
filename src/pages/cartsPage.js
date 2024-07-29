@@ -19,44 +19,7 @@ const Carts = () => {
     return splitText.length > 4 ? newText + ".." : newText;
   }
 
-  // useEffect(() => {
-   
-
-  //   const getStoredCarts = () => {
-  //     const storedData = localStorage.getItem("boughtItems");
-  //     if (storedData) {
-  //       try {
-  //         let parsedData = JSON.parse(storedData);
-  //         parsedData = parsedData.filter(item => item != null);
-  //         setAllCarts(parsedData);
-  //       } catch (error) {
-  //         console.error("Error parsing cart data:", error);
-  //         setAllCarts([]);
-  //       }
-  //     } else {
-  //       setAllCarts([]);
-  //     }
-  //   };
-
-  //   getStoredCarts();
-  // }, []);
- 
-  // useEffect(() => {
-  //   if(allCarts){
-  //    const getAmount = allCarts.reduce((acc, item) => {
-  //     acc = acc + item.price
-  //     console.log("acc reduce: ",acc);
-  //     return acc;
-  //    },0);
-
-  //    console.log('getAmount: ', getAmount);
-  //    setTotalAmount(getAmount.toFixed(2))
-  //   }
-    
-    
-  // }, [allCarts, totalCartItems]);
-
-
+  
   return (
     <div >
       <div>

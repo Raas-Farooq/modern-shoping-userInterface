@@ -25,7 +25,7 @@ const CartList = (props) => {
 
     const handleClick = (id) => {
 
-        if(isProductSaved){
+        if(isCartSaved){
             dispatch(removeFromCart(id))
         }
         else{
@@ -44,7 +44,7 @@ const CartList = (props) => {
             <img src={image} style={{width:'250px', height:'250px'}} alt={title} />
             <h5> {category} </h5>
             <h6> {price} </h6>
-            <button onClick={() => handleClick(id)}> {isCartSaved(id) ? 'Remove From Cart' : 'Add To Cart'} </button>
+            <button onClick={() => handleClick(id)}> {isCartSaved? 'Remove From Cart' : 'Add To Cart'} </button>
         </div>
     )
 }
