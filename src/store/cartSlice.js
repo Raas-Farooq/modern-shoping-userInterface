@@ -1,62 +1,48 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
+const initialItems = () => {
 
-// const startItems = () => {
-//   let items = localStorage.getItem('boughtItems') || [];
+    let savedCarts= JSON.parse(localStorage.getItem('boughtItems')) || [];
+ // first check whether use saved.length before parsing or not
+    return savedCarts
+}
 
-//   try{
-//     if(items);
-     
-//   }
-// }
+const productsSlice = createSlice({
+    name:'cart',
+    initialState:{
+        products:initialItems
+    },
+    reducers:{
+        addToCart: (state, action) => {
+            state.products.push(action.payload);
+            localStorage.setItem('boughtItems', state.products)
+        }
+        ,
+        removeFromCart: (state, action) => {
+            state.products = state.products.filter(product => product.id !== action.payload);
+            localStorage.setItem('boughtItems', state.products)
+        }
+    }
+})
 
-// const initialItems = (() => {
-//   let items = localStorage.getItem('boughtItems');
-//  console.log("initial items check: ", items);
-//   try{
-//     items = JSON.parse(items);
-//     if(items){
-//       items = items.filter(item => item != null);
-//     }
-//     return items
-//   }
-//   catch(err){
-//     console.log("unable to fetch items from localStorage");
-//     return []
-//   }
-// })();
+    export const {addToCart, removeFromCart} = productsSlice.actions
+    
+    export default productsSlice.reducer;
 
-// console.log("outside initiaItems: ", initialItems);
+    // question: how does the state is being recognized outside the productsSlice
 
-// const cartItemsSlice = createSlice({
-//     name:'cart',
-//     initialState:
-//     {
-//       items: initialItems
-//     },
-//     reducers:{
-//         addToCart:(state, action) => {
-//           console.log('Current state:', state);
-//           console.log('Action payload:', action.payload);
-//             const newItem = state.items.find(item => item.id === action.payload.id);
-//             if(!newItem){
-//               state.items.push(action.payload);
-//             }
-            
-//             localStorage.setItem('boughtItems', JSON.stringify(state.items))
-//         },
-//         removeFromCart: (state, action) => {
-//             state.items = state.items.filter(item => item.id !== action.payload);
-//             // state.items.push(newItems);
-//             localStorage.setItem('boughtItems', JSON.stringify(state.items))
-//         }
-//     }
-// })
+    
+    export const productsList = state => state.cart.products
+    export const isProductSaved = (id) => state => state.cart.products.some(product => product.id === id);
+
+    
 
 
-// export const {addToCart, removeFromCart} = cartItemsSlice.actions
-// export default cartItemsSlice.reducer
+
+
+
+
 
 // export const selectIsInCart = id => state => {
 //   // Check if state.cart and state.cart.items exist

@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGlobalState } from "../globalContext/context";
-import { addToCart, removeFromCart, selectIsInCart} from "../store/cartSlice";
+import {productsList} from '../store/cartSlice.js';
+
+
 const Carts = () => {
   // const {setTotalCartItems, totalCartItems, setTotalAmount, totalAmount} = useGlobalState();
   const [allCarts, setAllCarts] = useState([]);
   const {totalAmount, totalItems} = useGlobalState();
 
+  const myProductsList = useSelector(productsList);
   
   
   function shortText(text) {
@@ -16,26 +19,27 @@ const Carts = () => {
     return splitText.length > 4 ? newText + ".." : newText;
   }
 
-  useEffect(() => {
-    console.log("TotalAmount: ", totalAmount)
-    const getStoredCarts = () => {
-      const storedData = localStorage.getItem("boughtItems");
-      if (storedData) {
-        try {
-          let parsedData = JSON.parse(storedData);
-          parsedData = parsedData.filter(item => item != null);
-          setAllCarts(parsedData);
-        } catch (error) {
-          console.error("Error parsing cart data:", error);
-          setAllCarts([]);
-        }
-      } else {
-        setAllCarts([]);
-      }
-    };
+  // useEffect(() => {
+   
 
-    getStoredCarts();
-  }, []);
+  //   const getStoredCarts = () => {
+  //     const storedData = localStorage.getItem("boughtItems");
+  //     if (storedData) {
+  //       try {
+  //         let parsedData = JSON.parse(storedData);
+  //         parsedData = parsedData.filter(item => item != null);
+  //         setAllCarts(parsedData);
+  //       } catch (error) {
+  //         console.error("Error parsing cart data:", error);
+  //         setAllCarts([]);
+  //       }
+  //     } else {
+  //       setAllCarts([]);
+  //     }
+  //   };
+
+  //   getStoredCarts();
+  // }, []);
  
   // useEffect(() => {
   //   if(allCarts){
@@ -69,7 +73,7 @@ const Carts = () => {
         }}
       >
         {/* {console.log("allCarts: ", allCarts)} */}
-        {allCarts.map((cart) => {
+        {myProductsList.map((cart) => {
           // {console.log("cart: ", cart)}
           return (
             <div

@@ -6,40 +6,9 @@ const AppContext = createContext();
 
 const GlobalState = ({children}) => {
 
-    const [totalItems, setTotalItems] = useState(0);
-    const [totalAmount, setTotalAmount] = useState(0);
-    const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [err, setError] = useState(null);
     const [allProducts, setAllProducts] = useState([]);
-
-
-    useEffect(() => {
-
-        let localStored = JSON.parse(localStorage.getItem('boughtItems')) || [];
-        console.log("localStored in effect: ", localStored);
-        
-        if(localStored.length > 0){
-            setCartItems(localStored)
-        }
-        console.log("cartItems Effect: ", cartItems);
-    }, [])
-
-    
-    useEffect (() => {
-
-        if(cartItems.length > 0){
-            setTotalItems(cartItems.length)
-            console.log("cart Items new useEffect", cartItems);
-            const bill = cartItems.reduce((acc, product) => {
-                const rupees = acc + product.price;
-                return rupees;
-            },0) 
-            localStorage.setItem('boughtItems', JSON.stringify(cartItems))
-            setTotalAmount(bill)
-        }
-       
-    }, [cartItems])
 
 
     const fetchCarts = useCallback(async () => {
@@ -73,43 +42,19 @@ const GlobalState = ({children}) => {
     useEffect(() => {
         
         fetchCarts();
-
-        // console.log('myProducts: ', AllProducts)
     }, [fetchCarts])
 
-
-    const addToCart = (item) => {
-        setCartItems(prev =>  [...prev, item])
-        
-    }
-
-    const removeFromCart = (id) => {
-        
-       
-        const product = allProducts.some(product => product.id === id);
-
-        if(product){
-            
-            setCartItems(prev => prev.filter(prev => prev.id != id))
+    useEffect(() => {
+        if(allProducts.length >0 ){
+            console.log("products Loaded")
         }
-
-        
-    }
-
-    const isInCart = (id) => cartItems.some(cart => cart.id === id)
+    }, [allProducts])
 
     
     return <AppContext.Provider value={{
         allProducts,
         loading,
         err,
-        cartItems,
-        addToCart,
-        removeFromCart,
-        isInCart,
-        totalAmount,
-        totalItems
-   
     }}>
         {children}
     </AppContext.Provider>

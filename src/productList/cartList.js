@@ -4,19 +4,16 @@ import styles from './cartList.module.css';
 import { useGlobalState } from '../globalContext/context';
 import { useDispatch, useSelector } from 'react-redux';
 
-// import { addToCart, removeFromCart, selectIsInCart } from '../store/cartSlice';
+import { addToCart, removeFromCart, isProductSaved } from '../store/cartSlice';
+
+
 const CartList = (props) => {
-    // console.log("props items: ", props.cart)
 
-    
+    const {err, loading} = useGlobalState();
     const {id, category, title, image, price, rating} = props.cart;
-    const [found, setFound] = useState(false);
-    const {isInCart, addToCart, removeFromCart, cartItems} = useGlobalState();
+    const isCartSaved = useSelector(isProductSaved(id))
+    const dispatch = useDispatch();
 
-
-
-    // const dispatch = useDispatch()
-    // const isInCart = useSelector(selectIsInCart(id));
 
     function shortText(text){
 
@@ -28,54 +25,17 @@ const CartList = (props) => {
 
     const handleClick = (id) => {
 
-        console.log("click Item has been clcicked ", !isInCart(id));
-        if(!isInCart(id)){
-            const item = props.allProducts.find(product => product.id === id)
-            addToCart(item)
+        if(isProductSaved){
+            dispatch(removeFromCart(id))
         }
         else{
-            removeFromCart(id)
+            dispatch(addToCart(props.cart))
         }
-        
-        // if(isInCart){
-        //     dispatch(removeFromCart(id));
-        // }
-        // else{
-        //     const clickedItem = props.allProducts.find(product => product.id === id);
-        //     console.log("clicked card inside cartList ", clickedItem);
-        //     if(clickedItem){
-        //         dispatch(addToCart(clickedItem));
-        //     }
-        //     else{
-        //         console.log('nuable to dispatch addToCart ')
-        //     }
-        // }
-        // let storedCarts = JSON.parse(localStorage.getItem('boughtItems'))|| [];
-
-        // console.log("handleClick Runs")
-        // const exist = storedCarts.some(cart => cart.id === id);
-        // if(exist){
-        //     storedCarts = storedCarts.filter(cart => cart.id != id);
-        //     localStorage.setItem('boughtItems', JSON.stringify(storedCarts));
-        // }
-
-        // else {
-        //     const newCart = props.allProducts.find(product => product.id === id);
-        //     console.log("clicked Cart: ", newCart);
-        //     if(newCart){
-        //         storedCarts.push(newCart);
-        //         localStorage.setItem('boughtItems', JSON.stringify(storedCarts))
-        //     }
-        // }
-        // setFound(!found);
-
     }
 
-    // useEffect(() => {
-    //     const myWord =  shortText("going through the winds");
-        
-    // }, [found])
-  
+    if(loading) return (<div> ...Loading </div>)
+    if(err) return(<div> Error while fetching </div>)
+
     return (
         <div className={styles.singleCart} key={id} >
            
@@ -84,7 +44,7 @@ const CartList = (props) => {
             <img src={image} style={{width:'250px', height:'250px'}} alt={title} />
             <h5> {category} </h5>
             <h6> {price} </h6>
-            <button onClick={() => handleClick(id)}> {isInCart(id) ? 'Remove From Cart' : 'Add To Cart'} </button>
+            <button onClick={() => handleClick(id)}> {isCartSaved(id) ? 'Remove From Cart' : 'Add To Cart'} </button>
         </div>
     )
 }

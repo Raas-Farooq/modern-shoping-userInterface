@@ -8,9 +8,11 @@ import Navbar from './Components/Navbar.js';
 import { Provider } from 'react-redux';
 import store from './store/index.js'
 
+
+//question : what about using the <provider> in root index.js and will provider be used above 'BrowerRouter'?
 function App() {
   return (
-  // <Provider store={store} >
+  <Provider store={store} >
      <div>
     <Navbar />
       <Routes>
@@ -19,7 +21,7 @@ function App() {
       </Routes>
     
    </div>
-  // </Provider>
+ </Provider>
    
 
   );
