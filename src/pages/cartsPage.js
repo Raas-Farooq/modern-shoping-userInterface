@@ -6,8 +6,9 @@ import {productsList} from '../store/cartSlice.js';
 
 const Carts = () => {
   // const {setTotalCartItems, totalCartItems, setTotalAmount, totalAmount} = useGlobalState();
-  const [allCarts, setAllCarts] = useState([]);
-  const {totalAmount, totalItems} = useGlobalState();
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
+
 
   const myProductsList = useSelector(productsList);
   
@@ -19,12 +20,25 @@ const Carts = () => {
     return splitText.length > 4 ? newText + ".." : newText;
   }
 
-  
+  useEffect(() => {
+    if(myProductsList.length){
+      setTotalItems(myProductsList.length);
+      const cost = myProductsList.reduce((acc, product) => {
+        const itemPrice = acc + product.price;
+        return itemPrice  
+      },0)
+
+      setTotalPrice(cost.toFixed(2))
+    }
+    
+
+  }, [productsList]);
+
   return (
     <div >
       <div>
         <h5> <span style={{color:'blue'}}>total Items : {totalItems} </span></h5>
-        <h5><span style={{color:'blue'}}> total Amount : {totalAmount} </span></h5>
+        <h5><span style={{color:'blue'}}> total Amount : ${totalPrice} </span></h5>
       </div>
       
       <div
